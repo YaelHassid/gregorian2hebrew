@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="georgianDate">insert a date:</label>
+        <input type="date" id="georgian" name="georgian">
+        <input type="submit">
+    </form>
+
+    <script>
+            const url = 'https://www.hebcal.com/converter?cfg=json&g2h=1&strict=1';	
+            async function get_HebCal(e) {
+            e.preventDefault(); //Prevent form submission
+            var input = document.getElementById('georgian').value;
+            var d = new Date(input);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0'); 
+            const day = String(d.getDate()).padStart(2, '0'); 
+            
+            const newURL = `${url}&date=${year}-${month}-${day}`; //the original url with the updated date
+
+            const response = await fetch(newURL);
+            var data = await response.json();
+            console.log(data);
+
+            document.write("The Hebrew date is: "+data.hebrew);
+        }
+
+        document.querySelector("form").addEventListener("submit", get_HebCal);
+    </script>
+</body>
+</html>
